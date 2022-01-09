@@ -26,25 +26,15 @@ public:
         vector<int> dx={0,1,0,-1};
         vector<int> dy={1,0,-1,0};
         int n=instructions.size();
-        
-       
+        int other=0;
         for(int i=0;i<4*n;i++)
         {
             make_a_move(x,y,instructions[i%n],cur_dir,dx,dy);
-            if(x==0 && y==0 && cur_dir==0)
-            {
-                int cnt=0;
-                for(int j=0;j<n;j++)
-                {
-                    if(instructions[(i+j+1)%n]==instructions[j])
-                    {
-                        cnt++;
-                    }                    
-                }
-                if(cnt==n)
-                    return true;   
-            }
+            if(cur_dir!=0)
+                other++;
         }
+        if((x==0 && y==0) || (cur_dir!=0))
+            return true;
         return false;
         
     }
