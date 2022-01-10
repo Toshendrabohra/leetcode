@@ -9,17 +9,18 @@ public:
         int extra=0;
         for(int i=0;i<b.size();i++)
         {
-            ans+=(a[i]-'0'+b[i]-'0'+extra)%2+'0';
-            extra=(a[i]-'0'+b[i]-'0'+extra)/2;
+            char temp=a[i];
+            a[i]=(temp-'0'+b[i]-'0'+extra)%2+'0';
+            extra=(temp-'0'+b[i]-'0'+extra)/2;
         }
         for(int i=b.size();i<a.size();i++)
-        {
-            ans+=(a[i]-'0'+extra)%2+'0';
-            extra=(a[i]-'0'+extra)/2;
+        {char temp=a[i];
+            a[i]=(a[i]-'0'+extra)%2+'0';
+            extra=(temp-'0'+extra)/2;
         }
         if(extra)
-            ans+='1';
-        reverse(ans.begin(),ans.end());
-        return ans;
+            a+='1';
+        reverse(a.begin(),a.end());
+        return a;
     }
 };
