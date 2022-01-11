@@ -11,7 +11,7 @@
  */
 class Solution {
 public:
-    int find_sum(TreeNode* root,long long int num)
+    int find_sum(TreeNode* root,int num)
     {
         
         if(root==NULL)
