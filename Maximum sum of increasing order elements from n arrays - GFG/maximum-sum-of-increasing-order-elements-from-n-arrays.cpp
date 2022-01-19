@@ -33,40 +33,23 @@ int main() {
 
 
 int maximumSum( int n,int m, vector<vector<int>> &a) {
-int ans[n][m];
-for(int i=0;i<n;i++)
+    int ans=0;
+    int mx=INT_MAX;
+for(int i=n-1;i>=0;i--)
 {
-    sort(a[i].begin(),a[i].end());
+    int cur=-1;
     for(int j=0;j<m;j++)
     {
-        int x=-1;
-        if(i>0)
+        if(a[i][j]<mx)
         {
-            x=lower_bound(a[i-1].begin(),a[i-1].end(),a[i][j])-a[i-1].begin();
-            x--;
-        if(x==-1 || ans[i-1][x]==-1)
-        {
-        ans[i][j]=-1;
+            cur=max(cur,a[i][j]);
         }
-        else
-        ans[i][j]=a[i][j]+ans[i-1][x];
-        }
-        else
-        {
-            ans[i][j]=a[i][j];
-        
-        }
-        
-        if(j>0)
-        ans[i][j]=max(ans[i][j],ans[i][j-1]);
-       // cout<<ans[i][j]<<" ";
     }
-    //cout<<endl;
-   
+    if(cur==-1)
+    return 0;
+    mx=cur;
+    ans+=cur;
 }
-     if(ans[n-1][m-1]==-1)
-     return 0;
-     
-     return ans[n-1][m-1];
+    return ans;
     // Complete the function
 }
