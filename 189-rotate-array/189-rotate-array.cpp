@@ -1,12 +1,25 @@
 class Solution {
 public:
     void rotate(vector<int>& nums, int k) {
-        vector<int> ans(nums.size());
-        
-        for(int i=0;i<nums.size();i++)
+        int n=nums.size();
+        int cnt=n;
+        int indx=0;
+        while(cnt>0 && indx<n)
         {
-            ans[(i+k)%nums.size()]=nums[i];
+            int start=indx;
+            int cur=indx;
+            int nxt=nums[start];
+            do  
+            {
+                cur+=k;
+                swap(nxt,nums[cur%n]);
+               // cout<<(cur)%n<<" ";
+                cnt--;
+            }
+            while(cnt>0 && cur%n!=start);
+            indx++;
+         cout<<endl;
         }
-     nums=ans;
+       
     }
 };
