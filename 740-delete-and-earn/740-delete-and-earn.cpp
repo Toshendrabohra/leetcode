@@ -5,14 +5,14 @@ public:
         int n=nums.size();
         for(int i=0;i<n;i++)
             hash[nums[i]]++;
-        vector<int> dp(1e4+1,0);
+        int ans=0,prev=0,prevdash=0;
         for(int i=1;i<10001;i++)
         {
-            dp[i]=hash[i]*i;
-            if(i>1)
-            dp[i]+=dp[i-2];
-            dp[i]=max(dp[i],dp[i-1]);
+            int dum=hash[i]*i+prevdash;
+            prevdash=max(prevdash,prev);
+            ans=max(dum,ans);
+            prev=max(prev,dum);
         }
-        return dp[10000];
+        return ans;
     }
 };
