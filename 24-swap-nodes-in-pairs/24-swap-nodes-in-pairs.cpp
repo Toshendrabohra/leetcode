@@ -10,18 +10,13 @@
  */
 class Solution {
 public:
-    ListNode* modified(ListNode* head)
-    {
+   
+    ListNode* swapPairs(ListNode* head) {
         if(head==NULL || head->next==NULL)
             return head;
-        ListNode* temp=new ListNode(-1) ;
-        temp=head->next;
-         ListNode* dum=head->next->next;
+        ListNode* temp=head->next;
+        head->next=swapPairs(head->next->next);
         temp->next=head;
-        temp->next->next=modified(dum);
         return temp;
-    }
-    ListNode* swapPairs(ListNode* head) {
-        return modified(head);
     }
 };
