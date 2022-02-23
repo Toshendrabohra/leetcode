@@ -48,17 +48,22 @@ class Solution
     {
         //code here
         
-        Node *glprev=head;
-        while(1)
+        //Node *glprev=head;
+         Node *temp=head;
+        while(temp!=NULL)
         {
-            Node *temp=head;
-            int cnt=0;
+           
+           // int cnt=0;
+           //cout<<temp->data<<" "<<endl;
             while(temp->next!=NULL &&  temp->data <= temp->next->data)
             {
+              //  cout<<temp->data<<" ";
                 temp=temp->next;
+                
             }
             if(temp->next!=NULL)
             {
+                
                 Node* dum=temp->next;
                 temp->next=temp->next->next;
                 Node* tempo=head;
