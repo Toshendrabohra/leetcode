@@ -9,8 +9,7 @@ public:
     }
     
     void push(int val) {
-        if(freq.find(val)==freq.end())
-            freq[val]=0;
+        
         freq[val]++;
         f_stack[freq[val]].push(val);
         max_freq=max(max_freq,freq[val]);
