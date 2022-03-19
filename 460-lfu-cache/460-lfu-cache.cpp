@@ -1,62 +1,104 @@
 class LFUCache {
 public:
-    int size,counter,cur_size;
-    set<vector<int>> LFU;
-    unordered_map<int,int> status;
-    unordered_map<int,int> count;
-    unordered_map<int,int> Key;
+    struct node
+    {
+        int key;
+        int value;
+        int freq;
+        node *prev,*next;
+        node(int k,int v)
+        {
+            freq=1;
+            key=k;value=v;
+                prev=NULL;
+                next=NULL;
+        }
+    };
+    
+    int size,counter,cur_size,min_freq;
+    unordered_map<int,node*> mapp;
+    unordered_map<int,pair<node*,node*>> freq_list;
+
     LFUCache(int capacity) {
         size=capacity;counter=1;cur_size=0;
-        LFU.clear();
-        status.clear();
-        count.clear();
-        Key.clear();
+        min_freq=1;
+        mapp.clear();
+        freq_list.clear();
     }
-    
-    int get(int key) {
-        if(Key.find(key)!=Key.end())
+    void remove(int key)
+    {
+        node *temp=mapp[key];
+        cur_size--;
+        mapp.erase(key);
+        if(temp->next==NULL && temp->prev==NULL)
         {
-            LFU.erase({count[key],status[key],key});
-            count[key]++;
-            status[key]=counter++;
-            LFU.insert({count[key],status[key],key});
-            return Key[key];
+            if(min_freq==temp->freq)
+                min_freq++;
+            freq_list.erase(temp->freq);
+            
+        }
+        else if(temp->next==NULL)
+        {
+            temp->prev->next=NULL;
+            freq_list[temp->freq].second=temp->prev;
+        }
+        else if(temp->prev==NULL)
+        {
+            temp->next->prev=NULL;
+            freq_list[temp->freq].first=temp->next;
+        }
+        else
+        {
+            temp->prev->next=temp->next;
+            temp->next->prev=temp->prev;
+        }
+    }
+    void add(int key,int val,int freq)
+    {
+        cur_size++;
+        min_freq=min(min_freq,freq);
+        node *fresher=new node(key,val);
+        fresher->freq=freq;
+        if(freq_list.find(freq)==freq_list.end())
+        { 
+            freq_list[freq]={fresher,fresher};
+        }
+        else
+        {
+            fresher->prev=freq_list[freq].second;
+            freq_list[freq].second->next=fresher;
+            freq_list[freq].second=fresher;
+        }
+        mapp[key]=fresher;
+    }
+    int get(int key) {
+        if(mapp.find(key)!=mapp.end())
+        {
+            node *temp=mapp[key];
+            remove(temp->key);
+            add(temp->key,temp->value,temp->freq+1);
+           return mapp[key]->value;
         }
         return -1;
     }
     
     void put(int key, int value) {
-        if(Key.find(key)!=Key.end())
+        if(size==0)
+            return;
+        if(mapp.find(key)!=mapp.end())
         {
-            LFU.erase({count[key],status[key],key});
-            count[key]++;
-            status[key]=counter++;
-            Key[key]=value;
-            LFU.insert({count[key],status[key],key});
+            node *temp=mapp[key];
+            remove(temp->key);
+            add(temp->key,value,temp->freq+1);
+         //  return mapp[key]->value;
         }
         else
         {
-            if(size==0)
-                return;
-            
-            if(size<=cur_size)
-        {
-                
-            cur_size--;
-            int lfu_key=(*LFU.begin())[2];
-            cout<<lfu_key<<" ";
-            LFU.erase(LFU.begin());
-            count[lfu_key]=0;
-            status.erase(lfu_key);
-            Key.erase(lfu_key);
+           // cout<<key<<" "<<min_freq<<endl;
+           if(cur_size>=size) 
+              remove(freq_list[min_freq].first->key);
+           add(key,value,1);
         }
-            count[key]++;
-            cur_size++;
-            status[key]=counter++;
-            Key[key]=value;
-            LFU.insert({count[key],status[key],key});
-        }
-        
     }
 };
 
