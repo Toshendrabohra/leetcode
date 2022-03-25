@@ -1,34 +1,24 @@
 class Solution {
 public:
+    
+    static bool comp(vector<int> &a,vector<int> &b)
+    {
+        return a[0]-a[1]<b[0]-b[1];
+    }
     int twoCitySchedCost(vector<vector<int>>& costs) {
         int n=costs.size()/2;
-        int dp[2*n+1][n+1];
-        
-        for(int i=0;i<=2*n;i++)
+        sort(costs.begin(),costs.end(),comp);
+        int ans=0;
+        for(int i=0;i<n;i++)
         {
-            for(int j=0;j<=n;j++)
-                dp[i][j]=INT_MAX;
+            ans+=costs[i][0];
+            //cout<<costs[i][0]<<" "<<costs[i][1]<<endl;
         }
-        dp[0][0]=0;
-        //dp[0][1]=0;
-        for(int i=0;i<2*n;i++)
+        for(int i=n;i<2*n;i++)
         {
-            for(int j=0;j<=min(n,i+1);j++)
-            {
-                if(j==0)
-                {
-                    dp[i+1][j]=costs[i][1]+dp[i][j];
-                }
-                else
-                {
-                    if(dp[i][j]!=INT_MAX)
-                    dp[i+1][j]=min(dp[i+1][j],dp[i][j]+costs[i][1]);
-                    dp[i+1][j]=min(dp[i+1][j],dp[i][j-1]+costs[i][0]);
-                }
-               //cout<<dp[i+1][j]<<" ";
-            }
-          // cout<<endl;
+            ans+=costs[i][1];
         }
-        return dp[2*n][n];
+        return ans;
+       
     }
 };
