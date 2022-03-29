@@ -9,11 +9,16 @@ public:
         {
             int cur=keys.front();
             keys.pop();
-            if(vis[cur])
-                continue;
+           
             vis[cur]=1;
             for(auto &i:rooms[cur])
-                keys.push(i);
+            {
+                 if(!vis[i])
+                 {
+                        vis[i]=1;
+                         keys.push(i);
+                 }
+            }
         }
         for(int i=0;i<n;i++)
         {
