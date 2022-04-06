@@ -1,7 +1,7 @@
 class Solution {
 public:
     int openLock(vector<string>& deadends, string target) {
-        map<string,int> red_flags;
+        unordered_map<string,int> red_flags;
         for(int i=0;i<deadends.size();i++)
         {
             red_flags[deadends[i]]=1;
@@ -12,7 +12,7 @@ public:
         if(target=="0000")
             return 0;
         q.push("0000");
-        map<string ,int> dis;
+        unordered_map<string ,int> dis;
         while(!q.empty())
         {
             string cur=q.front();
