@@ -14,7 +14,7 @@ public:
         int ans=0;
         for(int i=0;i<=100;i++)
         {
-            int l=0,r=100;
+            int l=i,r=100;
             while(l<=r)
             {
                 if(l+r==target-i)
@@ -31,12 +31,9 @@ public:
                         freq2--;
                     vector<int> x={l,r,i};
                     sort(x.begin(),x.end());
-                    int hash_val=x[0]*11000+x[1]*101+x[2];
+                   
                     long long int factor=1;
-                    
-                    if(hash[hash_val])
-                        goto here;
-                    hash[hash_val]=1;
+
                     if(x[0]==x[1])
                         cnt++;
                     if(x[2]==x[1])
