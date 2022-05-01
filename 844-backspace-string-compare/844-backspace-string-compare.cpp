@@ -1,51 +1,85 @@
 class Solution {
 public:
     bool backspaceCompare(string s, string t) {
-        int pointer_s = s.size();
-        int pointer_ts = t.size();
+        int pointer_s = s.size()-1;
+        int pointer_ts = t.size() - 1;
         
-        stack <char> ss;
-        for(int i = 0; i < pointer_s ; i++)
+       while( pointer_s >= 0 &&  pointer_ts >= 0)
         {
-            if(s[i]=='#')
+            if(pointer_s>=0 && s[pointer_s] == '#')
             {
-                if(!ss.empty())
-                    ss.pop();
+                int cnt = 1;
+                pointer_s--;
+                
+                while(cnt && pointer_s>=0)
+                {
+                    if(s[pointer_s]=='#')
+                        cnt++;
+                    else
+                        cnt--;
+                    pointer_s--;
+                }
+                    
+            }
+            else if(pointer_ts >= 0 && t[pointer_ts] == '#')
+            {
+                int cnt=1;
+                pointer_ts--;
+                
+                while(cnt && pointer_ts>=0)
+                {
+                    if(t[pointer_ts]=='#')
+                        cnt++;
+                    else
+                        cnt--;
+                    pointer_ts--;
+                }
+                   
+              
+            }
+            else if(pointer_ts >= 0 && pointer_s >= 0 && t[pointer_ts] == s[pointer_s])
+            {
+                pointer_ts--;
+                pointer_s--;
             }
             else
-            {
-                ss.push(s[i]);
-            }
-                
+                break;
         }
         
-         stack <char> st;
-        for(int i = 0; i < pointer_ts ; i++)
+        while(pointer_s>=0 && s[pointer_s]=='#')
         {
-            if(t[i]=='#')
-            {
-                if(!st.empty())
-                    st.pop();
-            }
-            else
-            {
-                st.push(t[i]);
-            }
+                int cnt = 1;
+                pointer_s--;
                 
+                while(cnt && pointer_s>=0)
+                {
+                    if(s[pointer_s]=='#')
+                        cnt++;
+                    else
+                        cnt--;
+                    pointer_s--;
+                }
         }
-        while(!ss.empty() && !st.empty())
+        
+        while(pointer_ts>=0 && t[pointer_ts]=='#')
         {
-            if(ss.top()!=st.top())
-                return false;
-            ss.pop();
-            st.pop();
+                int cnt=1;
+                pointer_ts--;
+                
+                while(cnt && pointer_ts>=0)
+                {
+                    if(t[pointer_ts]=='#')
+                        cnt++;
+                    else
+                        cnt--;
+                    pointer_ts--;
+                }
         }
+              // pointer_ts=cnt;
         
-        if(!ss.empty())
-            return false;
-        if(!st.empty())
-            return false;
-        return true;
-        
+        if(pointer_s<=-1 && pointer_ts<=-1)
+            return true;
+        cout<<pointer_s<<" "<<pointer_ts;
+        return false;
     }
 };
