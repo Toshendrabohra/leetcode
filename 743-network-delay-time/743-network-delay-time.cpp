@@ -30,6 +30,10 @@ public:
             vector<int> dtop=dij.top();
             dij.pop();
             
+            if(dist[dtop[1]] < dtop[0])
+                continue;
+                
+            
             for( auto &i : graph[dtop[1]])
             {
                 if(dist[i.v]==-1 || (dist[i.v] > dist[dtop[1]] + i.dist ))
