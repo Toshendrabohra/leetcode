@@ -13,7 +13,7 @@ public:
 
                 if(low[i] > disc[node]) ans.push_back({node,i});
             }
-            else low[node] = min(low[node],disc[i]);
+            else low[node] = min(low[node],low[i]);
         }
     }
     vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
