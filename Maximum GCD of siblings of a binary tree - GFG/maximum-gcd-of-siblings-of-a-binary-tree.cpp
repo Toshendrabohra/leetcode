@@ -10,15 +10,32 @@ class Solution {
   public:
     int maxBinTreeGCD(vector<vector<int>> arr, int n) {
         // code here
+        if(n<=2)
+        return 0;
         sort(arr.begin(),arr.end());
-         int maxi = 0;
-         for(int i=1;i<arr.size();i++){
-            if(arr[i][0]==arr[i-1][0]){
-                 int res = __gcd(arr[i][1],arr[i-1][1]);
-                 maxi = max(maxi,res);
+        int ans=0;
+        int cur_gcd=0;
+        
+        for(int i=0;i< arr.size()-1; i++)
+        {
+             if(arr[i][0]==arr[i+1][0])
+            {
+                if(cur_gcd==0)
+                cur_gcd=__gcd(arr[i+1][1],arr[i][1]);
+                else
+                cur_gcd=__gcd(cur_gcd,arr[i][1]);
             }
-         }
-         return maxi;
+            else
+            {
+                ans=max(ans, cur_gcd);
+                cur_gcd=0;
+            }
+        }
+        
+        if(arr[n-2][0]==arr[n-3][0])
+              ans=max(ans, cur_gcd);
+               
+               return ans;
     }
 };
 
