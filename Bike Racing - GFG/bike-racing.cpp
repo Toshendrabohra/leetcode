@@ -9,27 +9,45 @@ using namespace std;
 
 class Solution{
 public:
-    bool check(long H[], long A[], long N, long L, long M, long mid){
-        long long totalSpeed=0;
-        for(long i=0;i<N;i++){
-            if(H[i]+A[i]*mid>=L)
-            totalSpeed+=H[i]+A[i]*mid;
-        }
-        return totalSpeed>=M;
-    }
-    
-    long buzzTime(long N, long M, long L, long H[], long A[])
+    bool chk( long n, long m, long l, long h[], long a[], long x)
     {
-        long start=1,end=M,ans=-1;
-        while(start<=end){
-            long mid=start+(end-start)/2;
+      long  long tot=0;
+        for( long i = 0; i < n ; i++)
+        {
+          //long  long v=;
+            if(h[i]+a[i]*x>=l)
+            tot+=h[i]+a[i]*x;
             
-            if(check(H,A,N,L,M,mid)){
-                ans=mid;
-                end=mid-1;
-            }
-            else start=mid+1;
+            if(tot>=m)
+            return true;
         }
+        
+        return tot>=m;
+    }
+    long buzzTime(long n, long m, long l, long h[], long a[])
+    {
+        // code here
+        long left=1, right=m;
+        
+        // while(!chk(n, m, l, h, a, right))
+        // right*=2;
+        
+        long ans = -1;
+        int cnt=0;
+        while(left <= right)
+        {
+            long mid = (right-left)/2+left;
+            
+            if(chk(n, m, l, h, a, mid))
+            {
+                right = mid - 1;
+                ans=  mid;
+            }
+            else
+            left= mid + 1;
+            cnt++;
+        }
+        //cout<<cnt;
         return ans;
     }
 };
