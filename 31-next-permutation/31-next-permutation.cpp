@@ -20,7 +20,7 @@ public:
                 indx = i;
         }
         
-        if(n > 1)
+        //if(n > 1)
         reverse(nums.begin() + rotate , nums.end());
     }
 };
