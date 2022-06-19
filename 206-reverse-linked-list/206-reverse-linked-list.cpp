@@ -15,7 +15,7 @@ public:
         if(head == NULL)
             return ;
             
-        cout<<head->val<<" ";
+        //cout<<head->val<<" ";
        reverse(head -> next, head, ans);
        head ->next = prev;
       
