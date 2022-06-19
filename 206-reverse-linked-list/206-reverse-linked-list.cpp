@@ -10,18 +10,23 @@
  */
 class Solution {
 public:
+    void reverse(ListNode *head, ListNode* prev, ListNode *&ans)
+    {
+        if(head == NULL)
+            return ;
+            
+        cout<<head->val<<" ";
+       reverse(head -> next, head, ans);
+       head ->next = prev;
+      
+        if(ans == NULL)
+            ans = head;
+        
+    }
     ListNode* reverseList(ListNode* head) {
         
-        ListNode *prev = NULL;
-        
-        while( head != NULL)
-        {
-            ListNode * temp = head -> next;
-            head ->next = prev;
-            prev = head;
-            head = temp;
-        }
-        
-        return prev;
+        ListNode * ans = NULL ;
+        reverse(head,NULL,ans);
+        return ans;
     }
 };
