@@ -35,18 +35,27 @@ public:
     int furthestBuilding(vector<int>& heights, int bricks, int ladders) {
         int ans = 0;
         int n = heights.size();
-        int l = 0, r = n-1;
+        int sum = 0;
         
-        while( l<= r)
+        priority_queue<int, vector<int>, greater<int>> p;
+        for(int i = 1; i < n; i++)
         {
-                int mid = (l+r)/2;
-            if(chk(heights, bricks, ladders, mid))
+            if(heights[i] - heights[i-1] > 0)
             {
-                ans = mid;
-                l = mid + 1;
+                p.push(heights[i] - heights[i-1]);
             }
-            else
-                r = mid - 1;
+            
+            if(p.size() > ladders)
+            {
+                sum += p.top();
+                p.pop();
+            }
+            
+            if(sum>bricks)
+                break;
+            
+            ans = i;
+            
         }
         
         return ans;
