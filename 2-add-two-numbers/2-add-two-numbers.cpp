@@ -11,48 +11,40 @@
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode* nhead = new ListNode();
-        ListNode* rhead = nhead;
+        
+        ListNode* rhead = l1;
         
         int carry = 0;
-        while(l1 != NULL && l2!= NULL)
+        ListNode* prev = NULL;
+        while(l1 != NULL && l2  != NULL)
         {
-            int x = (carry + l1->val + l2->val)/10;
-            ListNode * dum = new ListNode();
-            dum -> val = (carry + l1->val + l2->val)%10;
-            nhead ->next = dum;
-         
-            carry = x;
-            nhead = nhead ->next;
+            carry = (carry + l1->val + l2->val);
+            l1 -> val = carry % 10;
+            carry /= 10;
+          
+            prev = l1;
             l1 = l1->next;
             l2 = l2->next;
-            
-            
         }
         
         while(l1 != NULL)
         {
-         int x = (carry + l1->val)/10;
-            ListNode * dum = new ListNode();
-            dum -> val = (carry + l1->val )%10;
-            nhead ->next = dum;
-         
-            carry = x;
-            nhead = nhead ->next;
-            l1 = l1->next;
-           // l2 = l2->next;
-            
+            carry = (carry + l1->val );
+            l1 -> val = carry % 10;
+            carry /= 10;
+          
+            prev = l1;
+            l1 = l1->next; 
         }
         
         while(l2 != NULL)
-        {int x = (carry + l2->val)/10;
+        {   carry = (carry + l2->val);
             ListNode * dum = new ListNode();
-            dum -> val = (carry + l2->val )%10;
-            nhead ->next = dum;
-         
-            carry = x;
-            nhead = nhead ->next;
-          //  l1 = l1->next;
+            dum -> val = (carry)%10;
+            prev -> next = dum;
+            prev = prev -> next;
+            carry /= 10;
+
             l2 = l2->next;
         }
           
@@ -60,10 +52,9 @@ public:
         {
             ListNode * dum = new ListNode();
             dum -> val = (carry )%10;
-            nhead ->next = dum;
+            prev ->next = dum;
          
-          
         }
-        return rhead->next;
+        return rhead;
     }
 };
