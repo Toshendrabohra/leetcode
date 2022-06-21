@@ -1,46 +1,56 @@
 /**
  *Definition for singly-linked list.
  *struct ListNode {
- *    int val;
- *    ListNode * next;
- *    ListNode() : val(0), next(nullptr) {}
- *    ListNode(int x) : val(x), next(nullptr) {}
- *    ListNode(int x, ListNode *next) : val(x), next(next) {}
+ *int val;
+ *ListNode * next;
+ *ListNode() : val(0), next(nullptr) {}
+ *ListNode(int x) : val(x), next(nullptr) {}
+ *ListNode(int x, ListNode *next) : val(x), next(next) {}
  *};
  */
 class Solution
 {
     public:
-        ListNode* reverse(ListNode *head, int k, int cur, int &flag)
+        int lengthOfLinkedList(ListNode *head)
         {
-            cur++;
-            if(head->next == NULL)
+            int length = 0;
+            while (head != NULL)
             {
-                if(cur != k)
-                    flag = 0;
-                return head;
+                ++length;
+                head = head->next;
             }
-            ListNode* temp = reverse(head->next, k, cur%k, flag);
-            if(cur == k)
-                flag = 1;
-            
-            if(cur!=k && flag)
-            {
-                ListNode* dum = head->next;
-                head->next = head->next->next;
-                dum->next = head;
-                return temp;
-            }
-            else
-                head->next = temp;
-            
-            return head;
-            
+            return length;
         }
-        ListNode* reverseKGroup(ListNode *head, int k)
-        {
-            int flag = 1;
+   	//u
+    ListNode* reverseKGroup(ListNode *head, int k)
+    {
+        if (head == NULL || head->next == NULL) return head;
 
-            return reverse(head, k, 0,flag);
+        int length = lengthOfLinkedList(head);
+
+        ListNode *dummyHead = new ListNode(0);
+        dummyHead->next = head;
+
+        ListNode *pre = dummyHead;
+        ListNode * cur;
+        ListNode * nex;
+        while(length >= k)
+        {
+            cur = pre->next;
+            nex = cur->next;
+            
+            for( int i = 1; i < k ; i++)
+            {
+                //ListNode * dum = nex->next;
+                cur->next = nex->next;
+                nex->next = pre->next;
+                pre->next = nex;
+                nex = cur->next;
+            }
+            pre = cur;
+            length -= k;
         }
+        
+        return dummyHead->next;
+    }
 };
