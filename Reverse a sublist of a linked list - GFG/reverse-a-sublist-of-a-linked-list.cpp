@@ -31,40 +31,51 @@ struct Node {
 class Solution
 {
     public:
-  Node* reverse(Node* temp, int n, Node* prev){
-       Node* temp1 = new Node(temp->data);
-       temp1->next = prev;
-       if(n==0){
-           return temp1;
-       }
-       return reverse(temp->next,n-1,temp1);
-   }
+    Node * reverse (Node* head, Node* tail)
+    {
+        if( head == tail)
+        {
+            return tail;
+        }
+      Node* temp =  reverse(head -> next, tail);
+        Node* temp1 =   head -> next -> next;
+        head -> next -> next = head;
+        head -> next = temp1;
+        
+        return temp;
+    }
     Node* reverseBetween(Node* head, int m, int n)
     {
-     Node *main_temp=head,*prev_node=NULL,*temp=NULL;
-
-       n -= m;
-       m--;
-       while(m--){
-           prev_node = main_temp;
-           main_temp = main_temp->next;
-       }
-
-       temp = reverse(main_temp, n, NULL);
-       
-       if(prev_node != NULL)
-           prev_node->next = temp;
-       else
-           head = temp;
-       
-       while(temp->next!=NULL){
-           main_temp = main_temp->next;
-           temp = temp->next;
-       }
-       
-       temp->next = main_temp->next;
-       
-       return head;
+        //code here
+        if( m == n)
+        return head;
+        Node* rhead = NULL,*s = head, *e = head, *ehead = NULL;
+        int x = m - 1;
+        
+        while(x--)
+        {
+            rhead = s;
+            s = s -> next;
+        }
+        
+        x = n - 1;
+        while(x--)
+        {
+            e = e->next;
+        }
+//ehead = e ->next;
+        
+        
+       // cout<<s->ndata<<" ";
+       if(rhead != NULL)
+        rhead -> next = reverse(s,e);
+        else
+        return reverse(s,e);
+        //cout<<rhead ->next ->data;
+      //  s ->next = ehead;
+        
+        return head;
+        
     }
 };
 
