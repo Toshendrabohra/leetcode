@@ -15,43 +15,61 @@ class Solution{
     // return the expected answer
     int mod = 1e9 + 7;
     
-    int pow(int x, int y)
+    long long int power(long long int x, long long int y)
     {
+        if(y==0)
+        return 1;
         if(x ==  1)
         return 1;
         
         if(y == 1 )
         return x;
         
-        int r= 1;
-        if(x%2)    
+        long long int r= 1;
+        if(y%2)    
         r = x;
         
-        int z = pow(x, y/2);
+        long long int z = power(x, y/2);
         
         return (z*z*r)%mod;
     }
     
     int fun(string &s) {
         //code here
-         const long long int MOD = 1e9 + 7;
-        long long int a = 0, ab = 0, abc = 0;
+        int n = s.size();
         
-        for(char ch: s) {
-            // 1. Append a to a's
-            // 2. Start new string with a.
-            if(ch == 'a') a = (2 * a % MOD + 1) % MOD;
-            
-            // 1. Append b to ab's
-            // 2. Append b directly to a's
-            if(ch == 'b') ab = (2 * ab % MOD + a) % MOD;
-            
-            // 1. Append c to abc's
-            // 2. Append c directly to ab's
-            if(ch == 'c') abc = (2 * abc % MOD + ab) % MOD;
+        long long int a[n+1] , c[n+1];
+        a[0] = c[n] = 0;
+        for (int i = 0; i < n; i++)
+        {
+            a[i+1] = a[i] + ((s[i] == 'a' )?1:0);
+            //cout<<a[i]<<" ";
         }
         
-        return abc;
+        for( int i = n - 1; i >= 0; i--)
+        {
+            c[i] = c[i+1] + ((s[i] == 'c')?1:0);
+        }
+        
+        long long int ans = 0;
+        long long int pre = 0;
+        long long int tot = 0;
+        
+        for (int i = 0; i < n; i++)
+        {
+                if(s[i] == 'b')
+                {
+                    long long int x = power(2ll,a[i+1]) - 1;
+                    
+                    ans = (ans + ((x + pre)*(power(2ll,c[i]) - 1))%mod )%mod;
+                    
+                   // cout<<x + pre <<" "<<c[i]<<" "<<ans<<endl;
+                    
+                    pre = (x+(2*pre)%mod)%mod;
+                }
+        }
+        
+        return ans%mod;
     }
 };
 
