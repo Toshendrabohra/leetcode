@@ -8,16 +8,16 @@ class Solution
             int x = nums[0];
             for (long long int i = 0; i < nums.size(); i++)
             {
-                sum += nums[i]-x;
-                nums[i] = nums[i] - x;
+                sum += nums[i];
             }
 
-            long long int ans = abs(sum), prev = 0;
+            long long int ans = 1e15, prev = 0;
             long long int n = nums.size();
+            
             for (long long int i = 0; i < nums.size(); i++)
             {
                 long long int diff = nums[i] - prev;
-                long long int l = prev*i - psum, r = abs(sum - psum) - (n-i)*abs(nums[i]);
+                long long int l = prev*i - psum, r = sum - psum - (n-i)*nums[i];
                 long long int cost;
                 if(i >= n - i)
                 {
