@@ -1,28 +1,41 @@
 class Solution {
 public:
     int candy(vector<int>& ratings) {
-        vector<vector<int>> sorted;
         
-        for( int i = 0; i < ratings.size(); i++)
-        {
-            sorted.push_back({ratings[i], i});
-        }
-        
-        sort(sorted.begin(), sorted.end());
-        
-        vector<int> cand(sorted.size(),0);
+        vector<int> candy(ratings.size(),0);
         int candies = 0;
-        for(int i = 0; i < sorted.size(); i++)
+        int prev = 0;
+        int n = ratings.size();
+        
+        for(int i = 0; i < ratings.size(); i++)
         {
-            int indx = sorted[i][1];
-            int l = 0, r= 0;
-            if(indx<sorted.size()-1 && ratings[indx]>ratings[indx+1])
-                r = cand[indx+1];
-            if(indx>0 && ratings[indx]>ratings[indx-1])
-                l = cand[indx-1];
-            cand[indx] = max(r,l) + 1;
-           // cout<<indx<<" "<<cand[indx]<<endl;
-            candies += cand[indx];
+            int x = i+1;
+            while(x<n && ratings[x]<ratings[x-1])
+                x++;
+            int temp = x;
+                x--;
+            int cur = 1;
+            
+            while(x>i)
+            {
+                candies+=cur++;
+                x--;
+            }
+            
+            int here = cur;
+            
+            if(i>0 && ratings[i]>ratings[i-1])
+            {
+              here = max(here, prev+1) ;
+            }
+            
+            prev = here;
+            candies+=here;
+            if(temp > i+1)
+            {
+                i = temp - 1;
+                prev = 1;
+            }
         }
         
         return candies;
