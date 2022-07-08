@@ -9,19 +9,6 @@ using namespace std;
 
 class Solution{
 public:
-      void prin(int i,int j,vector<vector<int>> brackets,char &name,string &ans){
-       if(i+1==j){
-           ans=ans+name;
-           name++;
-           return ;
-       }
-       ans=ans+'(';
-       int k=brackets[i][j];
-       prin(i,k,brackets,name,ans);
-       prin(k,j,brackets,name,ans);
-       ans=ans+')';
-       return ;
-   }
     int mcm(int p[], int n, vector<vector<int>> &dp, int l, int r)
     {
         if(r-l <= 1)    
@@ -34,37 +21,43 @@ public:
         for( int i = l+1; i < r; i++)
         {
             x = min(x, p[l]*p[r]*p[i]+ mcm(p,n,dp,l,i) + mcm(p,n,dp,i,r));
+            cout<<l<<" "<<r<<" "<<x<<endl;
         }
+        
         
         return dp[l][r] = x;
     }
     
     string matrixChainOrder(int a[], int n){
         // code here
-              vector<vector<int>> dp(n,vector<int>(n));
-       vector<vector<int>> brackets(n,vector<int>(n));
-       for(int i=0;i<n-1;i++){
-           dp[i][i+1]=0;
-       }
-       for(int gap=2;gap<n;gap++){
-           for(int i=0;i+gap<n;i++){
-               int j=i+gap;
-               dp[i][j]=INT_MAX;
-               for(int k=i+1;k<j;k++){
-                   int q=dp[i][k]+dp[k][j]+a[i]*a[k]*a[j];
-                   if(q<dp[i][j]){
-                       dp[i][j]=q;
-                       brackets[i][j]=k;
-                   }
-               }
-           }
-       }
-       char name='A';
-       string ans="";
-       prin(0,n-1,brackets,name,ans);
-       return ans;
-
+        vector<vector<int>> dp(n+1, vector<int>(n,0));
+        vector<vector<string>> str(n+1,vector<string> (n+1));
+        for(int gap = 1; gap<n ; gap++)
+        {
+            
+            for(int i = 0; i < n - gap; i++)
+            {   if(gap==1)
+                    {
+                        str[i][i+gap] = 'A'+i;
+                        continue;
+                    }
+                int x = INT_MAX;
+                for(int j = i+1; j < i+gap ; j++)
+                {
+                    int cost = dp[i][j]+dp[j][i+gap] + a[i]*a[j]*a[i+gap];
+                    if(x> cost)
+                    {
+                        x = cost;
+                        str[i][i+gap] = '('+str[i][j]+str[j][i+gap]+')';
+                        dp[i][i+gap] = x;
+                    }
+                }
+                
+                
+            }
+        }
         
+        return str[0][n-1];
     }
 };
 
