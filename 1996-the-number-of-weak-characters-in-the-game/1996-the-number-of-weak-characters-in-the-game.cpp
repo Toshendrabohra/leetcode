@@ -3,6 +3,8 @@ struct prop
         int attack,defence;
     };
 class Solution {
+  
+    
     
 public:
     int numberOfWeakCharacters(vector<vector<int>>& properties) {
