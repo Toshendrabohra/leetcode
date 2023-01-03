@@ -8,9 +8,16 @@ using namespace std;
 // User function Template for C++
 class Solution {
   public:
+    static bool comp(const vector<int> &a , const vector<int> &b) 
+    { 
+        if(a[1] == b[1])  return a[0] < b[0];  
+        return a[1] < b[1]; 
+    }
+
     int maximum_profit(int n, vector<vector<int>> &intervals) {
         // Write your code here.
-        sort(intervals.begin(), intervals.end());
+        
+        sort(intervals.begin(), intervals.end(), comp);
         
         vector<int> dp(1e5+2, 0);
         
@@ -18,9 +25,9 @@ class Solution {
         for(int i = 1 ; i <= 1e5; i++)
         {
             dp[i] = max(dp[i], dp[i-1]);
-            while(indx < n && intervals[indx][0] == i)
+            while(indx < n && intervals[indx][1] == i)
             {
-                dp[intervals[indx][1]] = max(dp[intervals[indx][1]], intervals[indx][2] + dp[i]);
+                dp[i] = max(dp[intervals[indx][0]] + intervals[indx][2] , dp[i]);
                 indx++;
             }
         }
